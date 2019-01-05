@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<style>
+body {
+  margin: 2em auto;
+  max-width: 600px;
+}
+
+form div {
+    margin-bottom: 0.5em;
+}
+form div label, form div input {
+    display: block;
+    margin-bottom: 0.3em;
+}
+
+</style>
+<script>
+/*----------------
+base64 form upload
+-----------------*/
+function readURL(input,oput) 
+{
+    input.style.display = "block";
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            input.src =  e.target.result;
+			//console.log(document.getElementById('hinh3upload').src);
+			var src=e.target.result;
+			document.getElementById(oput).value=src;
+			document.getElementById('imgshow'+oput).innerHTML='<img src="'+src+'" width="300px">';
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+</head>
+
+<body>
+<!--<form id="test" action="#" method="post">-->
+<form class="form-horizontal" enctype="multipart/form-data">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Upload</legend>
+
+<input name="hinh1upload" id="hinh1upload" type="file" accept="image/*" onchange="readURL(this,'hinh1');" class="form-control">
+<input type="hidden" name="hinh1" id="hinh1"/>
+<div id="imgshowhinh1"></div>
+
+</fieldset>
+</form>
+</body>
+</html>

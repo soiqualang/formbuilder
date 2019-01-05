@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<style>
+body {
+  margin: 2em auto;
+  max-width: 600px;
+}
+
+form div {
+    margin-bottom: 0.5em;
+}
+form div label, form div input {
+    display: block;
+    margin-bottom: 0.3em;
+}
+</style>
+<script>
+function readURL(input,oput) 
+{
+    input.style.display = "block";
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            input.src =  e.target.result;
+			//console.log(document.getElementById('hinh3upload').src);
+			var src=e.target.result;
+			document.getElementById(oput).value=src;
+			document.getElementById('show'+oput).innerHTML='<img src="'+src+'" width="300px">';
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+function createInput(id,type){
+	var input = document.createElement("input");
+	input.type = type;
+	input.name = id;
+	input.id = id;
+	return input;
+}
+function createDiv(id,html){
+	var div = document.createElement("div");
+	div.id = id;
+	div.innerHTML=html;
+	return div;
+}
+
+function editform(){
+	var frm=document.getElementsByTagName("FORM")[0];
+	frm.setAttribute("id", "test");
+	var inputs = document.getElementsByTagName('input');
+	for(var i = 0; i < inputs.length; i++) {
+		if(inputs[i].type.toLowerCase() == 'file') {
+			//alert(inputs[i].value);
+			//alert(inputs[i].id);
+			var fid=inputs[i].id;
+			inputs[i].setAttribute("onchange", "readURL(this,'img"+fid+"');");
+			inputs[i].setAttribute("accept", "image/*");
+			
+			/*var input = document.createElement("input");
+			input.type = "text";
+			input.name = "member" + i;
+			frm.appendChild(input);*/
+			frm.appendChild(createInput('img'+fid,'hidden'));
+			//frm.appendChild(createDiv('showimg'+fid,'hahaha'));
+			frm.appendChild(createDiv('showimg'+fid,''));
+		}
+	}
+}
+
+//https://codepen.io/anon/pen/pOjZvN
+(function() {
+	function toJSONString( form ) {
+		var obj = {};
+		var elements = form.querySelectorAll( "input, select, textarea, file" );
+		for( var i = 0; i < elements.length; ++i ) {
+			var element = elements[i];
+			var name = element.name;
+			var value = element.value;
+
+			if( name ) {
+				obj[ name ] = value;
+			}
+		}
+
+		return JSON.stringify( obj );
+	}
+
+	document.addEventListener( "DOMContentLoaded", function() {
+		//document.getElementsByTagName("FORM")[0].setAttribute("id", "test");
+		//document.getElementsByTagName("FORM")[0].setAttribute("method", "post");
+		///var form = document.getElementById( "test" );
+		var form = document.getElementsByTagName( "form" )[0];
+		var output = document.getElementById( "output" );
+		form.addEventListener( "submit", function( e ) {
+			e.preventDefault();
+			//console.log(this);
+			var json = toJSONString( this );
+			output.innerHTML = json;
+
+		}, false);
+
+	});
+
+})();
+
+function toJSONString( form ) {
+	var obj = {};
+	var elements = form.querySelectorAll( "input, select, textarea, file" );
+	for( var i = 0; i < elements.length; ++i ) {
+		var element = elements[i];
+		var name = element.name;
+		var value = element.value;
+
+		if( name ) {
+			obj[ name ] = value;
+		}
+	}
+
+	return JSON.stringify( obj );
+}
+
+function form2json(){
+	var form = document.getElementsByTagName( "form" )[0];
+	var output = document.getElementById( "output" );
+	var json = toJSONString(form);
+	output.innerHTML = json;
+	//form.submit();
+}
+</script>
+</head>
+
+<body>
+<!--<form id="test" action="#" method="post">-->
+<form class="form-horizontal" enctype="multipart/form-data">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Form Name</legend>
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label" for="textinput-0">Tên</label>
+  <div class="controls">
+    <input id="textinput-0" name="textinput-0" type="text" placeholder="Nhập tên" class="input-xlarge">
+    
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="control-group">
+  <label class="control-label" for="selectbasic-0">Giai đoạn sinh trưởng</label>
+  <div class="controls">
+    <select id="selectbasic-0" name="selectbasic-0" class="input-xlarge">
+      <option>Làm đòng</option>
+      <option>Xuống giống</option>
+      <option>Trổ bông</option>
+      <option>Thu hoạch</option>
+    </select>
+  </div>
+</div>
+
+<!-- File Button --> 
+<div class="control-group">
+  <label class="control-label" for="filebutton-0">Hình 1</label>
+  <div class="controls">
+    <input id="filebutton-0" name="filebutton-0" class="input-file" type="file">
+  </div>
+</div>
+
+<!-- File Button --> 
+<div class="control-group">
+  <label class="control-label" for="filebutton-1">Hình 2</label>
+  <div class="controls">
+    <input id="filebutton-1" name="filebutton-1" class="input-file" type="file">
+  </div>
+</div>
+
+<!-- File Button --> 
+<div class="control-group">
+  <label class="control-label" for="filebutton-2">Hình 3</label>
+  <div class="controls">
+    <input id="filebutton-2" name="filebutton-2" class="input-file" type="file">
+  </div>
+</div>
+
+<!-- Button -->
+<div class="control-group">
+  <label class="control-label" for="singlebutton-0"></label>
+  <div class="controls">
+    <button id="singlebutton-0" name="singlebutton-0" class="btn btn-success">Lưu</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+<p>
+	<input type="button" onclick="form2json();" value="Send" class="btn btn-primary btn-block" onclick=""/>
+	<input type="button" onclick="editform();" value="t1" class="btn btn-primary btn-block" onclick=""/>
+</p>
+<pre id="output"></pre>
+</body>
+</html>
